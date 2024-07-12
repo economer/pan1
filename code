@@ -1,0 +1,24 @@
+library(flexdashboard)
+library(shiny)
+library(tidyverse)
+library(highcharter)
+library(viridisLite)
+library(plotly)
+library(treemap)
+library(knitr)
+library(flexdashboard)
+library(scales)
+
+## diagnostic and sites, add the tab 
+cvi_cath = read_csv('../data/cvi_cath_for_dash_july_9.csv') 
+
+# remove those with cabg and valve within 365 days 
+cvi_cath= cvi_cath %>% filter(
+  received_cabg_in_365_days == F
+) %>%
+  filter(
+  received_valve_in_365_days == F
+  )
+
+cvi_cath = cvi_cath %>% filter(proc_fiscal_year %in% c('2022/2023')) %>% 
+  filter(proc_clinical_group == "Coronary Interventions Procedures")
